@@ -1,0 +1,49 @@
+<!--<p-table [value]="orders">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Order No</th>
+            <th>Customer Name</th>
+            <th>Handover Point</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-orders>
+        <tr>
+            <td>{{orders.orderNo}}</td>
+            <td>{{orders.custName}}</td>
+            <td>{{orders.handOverPoint}}</td>
+        </tr>
+    </ng-template>
+</p-table>
+<p>
+  Order works
+</p>
+-->
+
+<p-panel header="Searchable Orders">
+
+    <!--<form (ngSubmit)="onsearchHandler()"></form>-->
+
+<p-table #dt2 [columns]="cols" [value]="orders" [paginator]="true" [rows]="10" dataKey="vin" [resizableColumns]="true" [reorderableColumns]="true"
+    selectionMode="single" [(selection)]="testProp" stateStorage="local" stateKey="statedemo-local">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
+        <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field" class="ui-fluid">
+                <input pInputText type="text" (input)="dt2.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dt2.filters[col.field]?.value">
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</p-panel>
