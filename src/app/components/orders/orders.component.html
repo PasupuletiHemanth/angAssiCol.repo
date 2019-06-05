@@ -20,9 +20,25 @@
 -->
 
 <p-panel header="Searchable Orders">
-
-    <!--<form (ngSubmit)="onsearchHandler()"></form>-->
-
+<div>
+    <form #searchForm="ngForm" (ngSubmit)="onsearchHandler(searchForm.form)">
+<div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-2">
+                    <span class="ui-float-label">
+                            <input id="float-input" type="text" size="20" class="form-control" 
+                            name="custName"
+                            ngModel
+                            #nameField="ngModel" pInputText> 
+                            <label for="float-input">Customer Name</label>
+                   </span>       
+        </div>
+        <div class="ui-g-12 ui-md-2"> 
+            <p-button label="Search" ></p-button>    
+        </div>
+        </div>
+    </form>
+</div>
+<div>
 <p-table #dt2 [columns]="cols" [value]="orders" [paginator]="true" [rows]="10" dataKey="vin" [resizableColumns]="true" [reorderableColumns]="true"
     selectionMode="single" [(selection)]="testProp" stateStorage="local" stateKey="statedemo-local">
     <ng-template pTemplate="header" let-columns>
@@ -46,4 +62,5 @@
         </tr>
     </ng-template>
 </p-table>
+</div>
 </p-panel>

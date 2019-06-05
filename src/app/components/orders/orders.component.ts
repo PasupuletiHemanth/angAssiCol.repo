@@ -9,32 +9,60 @@ import { OrdersService } from 'src/app/services/orders.service';
 })
 export class OrdersComponent implements OnInit {
 
-  orders:IOrder[];
+  orders: IOrder[];
   cols: any[];
+  tempOrders: IOrder[];
 
-  constructor(private ordersService:OrdersService) { }
+  constructor(private ordersService: OrdersService) { }
 
   ngOnInit() {
-    this.orders=[];
-    this.ordersService.getOrders().then(orders=> this.orders=orders.filter(function(item){
-      return item.custName.startsWith("Sample Name1");         
-  }));
+    this.orders = [];
+    this.tempOrders = [];
+    /*this.ordersService.getOrdersTest().then(orders => this.orders = orders.filter(function (item) {
+      return item.custName.startsWith("Sample Name1");
+    }));*/
+
+    this.ordersService.getOrders()
+              .subscribe( (resp: IOrder[]) => {
+                console.log(resp);
+                for(let re of resp)
+                {
+                  this.orders.push(re);
+                  this.tempOrders.push(re);
+                }
+                //this.orders = resp;
+                
+              });
+
     this.cols = [
       { field: 'orderNo', header: 'Order No' },
       { field: 'custName', header: 'Customer Name' },
       { field: 'handOverPoint', header: 'Handover Point' }
-  ];
-  alert("before for");
-  alert(this.orders);
-  for(let ord in this.orders)
-  {
-    alert("in for");
+    ];
+
+    console.log("before for");
+    console.log(this.orders);
+    for (let ord in this.orders) {
+      console.log("in for");
+    }
   }
-}
-  
-  test()
+
+  test() {
+    console.log("intest");
+    console.log(this.orders[0].orderNo);
+    this.orders= this.orders.filter(function (item) {
+      return item.custName.startsWith("Sample Customer Name1");
+    })
+    console.log(this.orders);
+  }
+
+  onsearchHandler(form)
   {
-    alert("intest");
-    alert(this.orders[0].orderNo);
+    this.orders=this.tempOrders;
+    console.log(form);
+    console.log(form.value);
+    this.orders= this.orders.filter(function (item) {
+      return item.custName.toLowerCase().startsWith(form.value.custName.toLowerCase());
+    })
   }
 }
